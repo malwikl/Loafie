@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appID": "A87A7C699Z.de.kloeffer.loafies",
+        "components": [
+          {
+            "/": "/timer/*"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3300" height="2200" viewBox="0 0 3300 2200">
+  <g id="Guides" display="none"><path id="Baseline-S" d="M0 1556h3300"/><path id="Capline-S" d="M0 0h3300"/><path id="Baseline-M" d="M0 1556h3300"/><path id="Capline-M" d="M0 0h3300"/><path id="Baseline-L" d="M0 1556h3300"/><path id="Capline-L" d="M0 0h3300"/><path id="left-margin" d="M800 0v2200"/><path id="right-margin" d="M2500 0v2200"/></g>
+  <g id="Symbols"><g id="Regular-M" transform="translate(575 -233) scale(4.2)"><path fill="#000" d="M487.791 86.191H24.209C11.133 86.191 0 96.189 0 109.266v135.249c0 68.915 56.4 124.691 125.317 124.691h261.368C455.6 369.206 512 313.43 512 244.513V109.266c0-13.077-11.133-23.075-24.209-23.075ZM374.352 387.216H138.935c-10.657 0-19.297 8.64-19.297 19.297s8.64 19.296 19.297 19.296h235.417c10.657 0 19.297-8.64 19.297-19.296s-8.64-19.297-19.297-19.297Z"/></g></g>
+</svg>

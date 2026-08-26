@@ -1,0 +1,7 @@
+{
+  "images" : [ { "idiom" : "watch", "filename" : "AppIcon.png", "size" : "1024x1024" } ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

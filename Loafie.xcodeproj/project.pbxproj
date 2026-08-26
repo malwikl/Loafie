@@ -6,6 +6,29 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		138E672507650106689431A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEED1CA9D2412E7C1D1AA690 /* Assets.xcassets */; };
+		163538D0B5EE89BF80E43975 /* LoafieLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89863CE7FF08BC1603EDF7E /* LoafieLiveActivity.swift */; };
+		1A7F9F4D8F3F4D8A9A1B2C3D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1A7F9F4E8F3F4D8A9A1B2C3D /* Localizable.xcstrings */; };
+		222DCFCD36255C5398BD2241 /* WatchSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3362920EA560E3317A3B8E0 /* WatchSessionView.swift */; };
+		3AD5E0DAAE710216B9EF51A6 /* LoafieWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 181DD992C707BB4931612C00 /* LoafieWatch.app */; platformFilters = (iphoneos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3B6F02B63BD5F800D81BD4F4 /* LoafieWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8DFB35CCCEAE75975B70AFA9 /* LoafieWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		41ECD2F50681FD7D7E93D2ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD5CB85C391FBFAAD2E5808 /* Foundation.framework */; };
+		4B89B61470E6424B43021EB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2A0C3CBCB32A771C36C2026 /* Assets.xcassets */; };
+		5074EC9A40C9753E9CEE3012 /* LoafieLiveActivityBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AF5ACF16E990B0DCF6BA1 /* LoafieLiveActivityBundle.swift */; };
+		6C0D8344631123FE299B803F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7034292F7E93643386EA2C08 /* Foundation.framework */; };
+		94C5B6F2A80B773CC0697E82 /* LoafieWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CEDF16C1C6106D7DD92393 /* LoafieWatchApp.swift */; };
+		97F886CA1F527F328D3B1E17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB002E4C5F3E578A88765D /* ContentView.swift */; };
+		AB5DEAECA579A4A6ED92F040 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD5CB85C391FBFAAD2E5808 /* Foundation.framework */; };
+		AE84D10DB905D8B89F3DD111 /* WatchSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A001CEB85C34F83B9C4FE45 /* WatchSessionModel.swift */; };
+		B02487458708EC6129D5508E /* WatchSessionSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD18417829976404EF7A09 /* WatchSessionSnapshot.swift */; };
+		B673272F9FCCCF8178271BE5 /* NoSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826FF4915824FE2C410005D8 /* NoSessionView.swift */; };
+		C22D699CB702150D0B5B3D09 /* LoafieLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365107E1EEEE1482A603222 /* LoafieLiveActivityAttributes.swift */; };
+		C273AB24B5FCD0FFA2D9E89D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97A92CDA97DBC709441AB2DE /* Assets.xcassets */; };
+		E972434046DD679872397ED5 /* LoafieLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365107E1EEEE1482A603222 /* LoafieLiveActivityAttributes.swift */; };
+		F0A11B22C33D44E55F667788 /* LoafieLiveActivity.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 711C260E17EE5F1B690F4751 /* LoafieLiveActivity.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		5C67FD5F303191CB007E540E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -14,19 +37,86 @@
 			remoteGlobalIDString = 5C67FD4E303191C9007E540E;
 			remoteInfo = Loafie;
 		};
-		5C67FD69303191CB007E540E /* PBXContainerItemProxy */ = {
+		62C5E521BAD7C9D5747295AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5C67FD47303191C9007E540E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5C67FD4E303191C9007E540E;
-			remoteInfo = Loafie;
+			remoteGlobalIDString = ADD8C8FEA00274B28CE1EFD0;
+			remoteInfo = LoafieLiveActivity;
+		};
+		71C3F5142751376CE547DDC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5C67FD47303191C9007E540E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39559CCAB8D1C5144E4EAD9B;
+			remoteInfo = LoafieWatch;
+		};
+		DAEE210C5F0F51028194ACEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5C67FD47303191C9007E540E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A2EDE852C574E6B8508A870E;
+			remoteInfo = "LoafieWatch Extension";
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1114B41C53C1F1F8E9328105 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F0A11B22C33D44E55F667788 /* LoafieLiveActivity.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		169570DCA27BE884B30F2D44 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				3B6F02B63BD5F800D81BD4F4 /* LoafieWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DC6E6C79969D797923A04D7 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 11;
+			files = (
+				3AD5E0DAAE710216B9EF51A6 /* LoafieWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		03CEDF16C1C6106D7DD92393 /* LoafieWatchApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoafieWatchApp.swift; sourceTree = "<group>"; };
+		045AF5ACF16E990B0DCF6BA1 /* LoafieLiveActivityBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoafieLiveActivityBundle.swift; sourceTree = "<group>"; };
+		0A001CEB85C34F83B9C4FE45 /* WatchSessionModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WatchSessionModel.swift; sourceTree = "<group>"; };
+		181DD992C707BB4931612C00 /* LoafieWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoafieWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A7F9F4E8F3F4D8A9A1B2C3D /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		31CB002E4C5F3E578A88765D /* ContentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5C67FD4F303191C9007E540E /* Loafie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loafie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C67FD5E303191CB007E540E /* LoafieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoafieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C67FD68303191CB007E540E /* LoafieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoafieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7034292F7E93643386EA2C08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		711C260E17EE5F1B690F4751 /* LoafieLiveActivity.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LoafieLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		826FF4915824FE2C410005D8 /* NoSessionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NoSessionView.swift; sourceTree = "<group>"; };
+		8DFB35CCCEAE75975B70AFA9 /* LoafieWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "LoafieWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		97A92CDA97DBC709441AB2DE /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C3362920EA560E3317A3B8E0 /* WatchSessionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WatchSessionView.swift; sourceTree = "<group>"; };
+		C365107E1EEEE1482A603222 /* LoafieLiveActivityAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoafieLiveActivityAttributes.swift; sourceTree = "<group>"; };
+		CAD5CB85C391FBFAAD2E5808 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS11.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D89863CE7FF08BC1603EDF7E /* LoafieLiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoafieLiveActivity.swift; sourceTree = "<group>"; };
+		DEED1CA9D2412E7C1D1AA690 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E2A0C3CBCB32A771C36C2026 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E2AD18417829976404EF7A09 /* WatchSessionSnapshot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WatchSessionSnapshot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,14 +130,17 @@
 			path = LoafieTests;
 			sourceTree = "<group>";
 		};
-		5C67FD6B303191CB007E540E /* LoafieUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LoafieUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1417FC7BC8E9E9086D61E57E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C0D8344631123FE299B803F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5C67FD4C303191C9007E540E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -62,23 +155,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C67FD65303191CB007E540E /* Frameworks */ = {
+		C928B37F345285D5E70C994D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41ECD2F50681FD7D7E93D2ED /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF8D5B6410306E022213A79D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB5DEAECA579A4A6ED92F040 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		552E3BEF98C1AFBC22E0361E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A1438FF0CCE0F864E250CAC /* watchOS */,
+				6B7909AFEB3CA314D3E8F110 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5C67FD46303191C9007E540E = {
 			isa = PBXGroup;
 			children = (
 				5C67FD51303191C9007E540E /* Loafie */,
 				5C67FD61303191CB007E540E /* LoafieTests */,
-				5C67FD6B303191CB007E540E /* LoafieUITests */,
 				5C67FD50303191C9007E540E /* Products */,
+				BB92D53C9CF2E2908F3ABCCC /* LoafieWatch */,
+				B2F11462FECEE1316F6487FC /* LoafieWatch Extension */,
+				552E3BEF98C1AFBC22E0361E /* Frameworks */,
+				738F0BFC628A4F83196EE82C /* LoafieLiveActivity */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,14 +201,85 @@
 			children = (
 				5C67FD4F303191C9007E540E /* Loafie.app */,
 				5C67FD5E303191CB007E540E /* LoafieTests.xctest */,
-				5C67FD68303191CB007E540E /* LoafieUITests.xctest */,
+				8DFB35CCCEAE75975B70AFA9 /* LoafieWatch Extension.appex */,
+				181DD992C707BB4931612C00 /* LoafieWatch.app */,
+				711C260E17EE5F1B690F4751 /* LoafieLiveActivity.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6B7909AFEB3CA314D3E8F110 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7034292F7E93643386EA2C08 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		738F0BFC628A4F83196EE82C /* LoafieLiveActivity */ = {
+			isa = PBXGroup;
+			children = (
+				C365107E1EEEE1482A603222 /* LoafieLiveActivityAttributes.swift */,
+				045AF5ACF16E990B0DCF6BA1 /* LoafieLiveActivityBundle.swift */,
+				D89863CE7FF08BC1603EDF7E /* LoafieLiveActivity.swift */,
+				1A7F9F4E8F3F4D8A9A1B2C3D /* Localizable.xcstrings */,
+				97A92CDA97DBC709441AB2DE /* Assets.xcassets */,
+			);
+			path = LoafieLiveActivity;
+			sourceTree = "<group>";
+		};
+		8A1438FF0CCE0F864E250CAC /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				CAD5CB85C391FBFAAD2E5808 /* Foundation.framework */,
+			);
+			name = watchOS;
+			sourceTree = "<group>";
+		};
+		B2F11462FECEE1316F6487FC /* LoafieWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				03CEDF16C1C6106D7DD92393 /* LoafieWatchApp.swift */,
+				31CB002E4C5F3E578A88765D /* ContentView.swift */,
+				0A001CEB85C34F83B9C4FE45 /* WatchSessionModel.swift */,
+				C3362920EA560E3317A3B8E0 /* WatchSessionView.swift */,
+				826FF4915824FE2C410005D8 /* NoSessionView.swift */,
+				E2AD18417829976404EF7A09 /* WatchSessionSnapshot.swift */,
+				DEED1CA9D2412E7C1D1AA690 /* Assets.xcassets */,
+			);
+			path = "LoafieWatch Extension";
+			sourceTree = "<group>";
+		};
+		BB92D53C9CF2E2908F3ABCCC /* LoafieWatch */ = {
+			isa = PBXGroup;
+			children = (
+				E2A0C3CBCB32A771C36C2026 /* Assets.xcassets */,
+			);
+			path = LoafieWatch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		39559CCAB8D1C5144E4EAD9B /* LoafieWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB209DCF39E30F1DAF2281EB /* Build configuration list for PBXNativeTarget "LoafieWatch" */;
+			buildPhases = (
+				22D0DE8CDFBDF181A4978DAC /* Sources */,
+				C928B37F345285D5E70C994D /* Frameworks */,
+				DEA6ABF5BBCA545A818DCFBB /* Resources */,
+				169570DCA27BE884B30F2D44 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F426B8D779FBA55B2F49E71B /* PBXTargetDependency */,
+			);
+			name = LoafieWatch;
+			productName = LoafieWatch;
+			productReference = 181DD992C707BB4931612C00 /* LoafieWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
 		5C67FD4E303191C9007E540E /* Loafie */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C67FD72303191CB007E540E /* Build configuration list for PBXNativeTarget "Loafie" */;
@@ -102,17 +287,19 @@
 				5C67FD4B303191C9007E540E /* Sources */,
 				5C67FD4C303191C9007E540E /* Frameworks */,
 				5C67FD4D303191C9007E540E /* Resources */,
+				4DC6E6C79969D797923A04D7 /* Embed Watch Content */,
+				1114B41C53C1F1F8E9328105 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2904E924C34CE6EE50F796C0 /* PBXTargetDependency */,
+				849FAA6742663F898FA2F0AE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				5C67FD51303191C9007E540E /* Loafie */,
 			);
 			name = Loafie;
-			packageProductDependencies = (
-			);
 			productName = Loafie;
 			productReference = 5C67FD4F303191C9007E540E /* Loafie.app */;
 			productType = "com.apple.product-type.application";
@@ -134,34 +321,43 @@
 				5C67FD61303191CB007E540E /* LoafieTests */,
 			);
 			name = LoafieTests;
-			packageProductDependencies = (
-			);
 			productName = LoafieTests;
 			productReference = 5C67FD5E303191CB007E540E /* LoafieTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5C67FD67303191CB007E540E /* LoafieUITests */ = {
+		A2EDE852C574E6B8508A870E /* LoafieWatch Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C67FD78303191CB007E540E /* Build configuration list for PBXNativeTarget "LoafieUITests" */;
+			buildConfigurationList = 129BB2D01F4B6C38A663DA40 /* Build configuration list for PBXNativeTarget "LoafieWatch Extension" */;
 			buildPhases = (
-				5C67FD64303191CB007E540E /* Sources */,
-				5C67FD65303191CB007E540E /* Frameworks */,
-				5C67FD66303191CB007E540E /* Resources */,
+				91155AEC87E94BF627A08E95 /* Sources */,
+				EF8D5B6410306E022213A79D /* Frameworks */,
+				F7C9F3B988D0022685F50B0B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5C67FD6A303191CB007E540E /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				5C67FD6B303191CB007E540E /* LoafieUITests */,
+			name = "LoafieWatch Extension";
+			productName = "LoafieWatch Extension";
+			productReference = 8DFB35CCCEAE75975B70AFA9 /* LoafieWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+		ADD8C8FEA00274B28CE1EFD0 /* LoafieLiveActivity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A38EAC52701B2061D8409622 /* Build configuration list for PBXNativeTarget "LoafieLiveActivity" */;
+			buildPhases = (
+				BAA51EB68217BF814842EFA8 /* Sources */,
+				1417FC7BC8E9E9086D61E57E /* Frameworks */,
+				87DED3FE67842DBB6CA4A0A6 /* Resources */,
 			);
-			name = LoafieUITests;
-			packageProductDependencies = (
+			buildRules = (
 			);
-			productName = LoafieUITests;
-			productReference = 5C67FD68303191CB007E540E /* LoafieUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			dependencies = (
+			);
+			name = LoafieLiveActivity;
+			productName = LoafieLiveActivity;
+			productReference = 711C260E17EE5F1B690F4751 /* LoafieLiveActivity.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -177,10 +373,6 @@
 						CreatedOnToolsVersion = 26.6;
 					};
 					5C67FD5D303191CB007E540E = {
-						CreatedOnToolsVersion = 26.6;
-						TestTargetID = 5C67FD4E303191C9007E540E;
-					};
-					5C67FD67303191CB007E540E = {
 						CreatedOnToolsVersion = 26.6;
 						TestTargetID = 5C67FD4E303191C9007E540E;
 					};
@@ -202,7 +394,9 @@
 			targets = (
 				5C67FD4E303191C9007E540E /* Loafie */,
 				5C67FD5D303191CB007E540E /* LoafieTests */,
-				5C67FD67303191CB007E540E /* LoafieUITests */,
+				A2EDE852C574E6B8508A870E /* LoafieWatch Extension */,
+				39559CCAB8D1C5144E4EAD9B /* LoafieWatch */,
+				ADD8C8FEA00274B28CE1EFD0 /* LoafieLiveActivity */,
 			);
 		};
 /* End PBXProject section */
@@ -222,20 +416,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C67FD66303191CB007E540E /* Resources */ = {
+		87DED3FE67842DBB6CA4A0A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C273AB24B5FCD0FFA2D9E89D /* Assets.xcassets in Resources */,
+				1A7F9F4D8F3F4D8A9A1B2C3D /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEA6ABF5BBCA545A818DCFBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B89B61470E6424B43021EB7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7C9F3B988D0022685F50B0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				138E672507650106689431A2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		22D0DE8CDFBDF181A4978DAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5C67FD4B303191C9007E540E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C22D699CB702150D0B5B3D09 /* LoafieLiveActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,29 +466,112 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C67FD64303191CB007E540E /* Sources */ = {
+		91155AEC87E94BF627A08E95 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94C5B6F2A80B773CC0697E82 /* LoafieWatchApp.swift in Sources */,
+				97F886CA1F527F328D3B1E17 /* ContentView.swift in Sources */,
+				AE84D10DB905D8B89F3DD111 /* WatchSessionModel.swift in Sources */,
+				222DCFCD36255C5398BD2241 /* WatchSessionView.swift in Sources */,
+				B673272F9FCCCF8178271BE5 /* NoSessionView.swift in Sources */,
+				B02487458708EC6129D5508E /* WatchSessionSnapshot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAA51EB68217BF814842EFA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5074EC9A40C9753E9CEE3012 /* LoafieLiveActivityBundle.swift in Sources */,
+				163538D0B5EE89BF80E43975 /* LoafieLiveActivity.swift in Sources */,
+				E972434046DD679872397ED5 /* LoafieLiveActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2904E924C34CE6EE50F796C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LoafieWatch;
+			platformFilters = (
+				iphoneos,
+			);
+			target = 39559CCAB8D1C5144E4EAD9B /* LoafieWatch */;
+			targetProxy = 71C3F5142751376CE547DDC2 /* PBXContainerItemProxy */;
+		};
 		5C67FD60303191CB007E540E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5C67FD4E303191C9007E540E /* Loafie */;
 			targetProxy = 5C67FD5F303191CB007E540E /* PBXContainerItemProxy */;
 		};
-		5C67FD6A303191CB007E540E /* PBXTargetDependency */ = {
+		849FAA6742663F898FA2F0AE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5C67FD4E303191C9007E540E /* Loafie */;
-			targetProxy = 5C67FD69303191CB007E540E /* PBXContainerItemProxy */;
+			name = LoafieLiveActivity;
+			target = ADD8C8FEA00274B28CE1EFD0 /* LoafieLiveActivity */;
+			targetProxy = 62C5E521BAD7C9D5747295AD /* PBXContainerItemProxy */;
+		};
+		F426B8D779FBA55B2F49E71B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "LoafieWatch Extension";
+			target = A2EDE852C574E6B8508A870E /* LoafieWatch Extension */;
+			targetProxy = DAEE210C5F0F51028194ACEC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		08A1A30A8D5EEFA3B11ACBC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A87A7C699Z;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LoafieLiveActivity/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies.liveactivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1743849AE1F00345EFE719EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LoafieWatch/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = NO;
+				SUPPORTED_PLATFORMS = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 		5C67FD70303191CB007E540E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -321,7 +624,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -378,7 +681,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -395,19 +698,27 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A87A7C699Z;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LoafieInfo.plist;
+				INFOPLIST_KEY_CFBundleURLTypes = "{\"CFBundleTypeRole\"=>\"Editor\", \"CFBundleURLName\"=>\"de.kloeffer.loafies.liveactivity\", \"CFBundleURLSchemes\"=>[\"loafie\"]}";
+				INFOPLIST_KEY_NSAlarmKitUsageDescription = "Loafie uses alarms to make sure baking timers are noticed.";
+				INFOPLIST_KEY_NSLiveActivitiesUsageDescription = "Loafie shows your current baking phase on the Lock Screen and in the Dynamic Island.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.Loafie;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -426,19 +737,27 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A87A7C699Z;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LoafieInfo.plist;
+				INFOPLIST_KEY_CFBundleURLTypes = "{\"CFBundleTypeRole\"=>\"Editor\", \"CFBundleURLName\"=>\"de.kloeffer.loafies.liveactivity\", \"CFBundleURLSchemes\"=>[\"loafie\"]}";
+				INFOPLIST_KEY_NSAlarmKitUsageDescription = "Loafie uses alarms to make sure baking timers are noticed.";
+				INFOPLIST_KEY_NSLiveActivitiesUsageDescription = "Loafie shows your current baking phase on the Lock Screen and in the Dynamic Island.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.Loafie;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -456,8 +775,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A87A7C699Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.LoafieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -477,8 +797,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A87A7C699Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.LoafieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -492,47 +813,122 @@
 			};
 			name = Release;
 		};
-		5C67FD79303191CB007E540E /* Debug */ = {
+		B9C61B64611D75A5E5CB11C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
+				DEVELOPMENT_TEAM = A87A7C699Z;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LoafieLiveActivity/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.LoafieUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies.liveactivity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Loafie;
 			};
 			name = Debug;
 		};
-		5C67FD7A303191CB007E540E /* Release */ = {
+		D6CE52A28BA06350EB9C9FB2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "LoafieWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.LoafieUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = watchos;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Loafie;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
+		};
+		D703BC49D359A45219444CE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "LoafieWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		F275ADD9FDA64A721844F502 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LoafieWatch/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.kloeffer.loafies.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = NO;
+				SUPPORTED_PLATFORMS = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		129BB2D01F4B6C38A663DA40 /* Build configuration list for PBXNativeTarget "LoafieWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6CE52A28BA06350EB9C9FB2 /* Release */,
+				D703BC49D359A45219444CE7 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5C67FD4A303191C9007E540E /* Build configuration list for PBXProject "Loafie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -560,11 +956,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5C67FD78303191CB007E540E /* Build configuration list for PBXNativeTarget "LoafieUITests" */ = {
+		A38EAC52701B2061D8409622 /* Build configuration list for PBXNativeTarget "LoafieLiveActivity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C67FD79303191CB007E540E /* Debug */,
-				5C67FD7A303191CB007E540E /* Release */,
+				08A1A30A8D5EEFA3B11ACBC6 /* Release */,
+				B9C61B64611D75A5E5CB11C6 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB209DCF39E30F1DAF2281EB /* Build configuration list for PBXNativeTarget "LoafieWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1743849AE1F00345EFE719EE /* Release */,
+				F275ADD9FDA64A721844F502 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

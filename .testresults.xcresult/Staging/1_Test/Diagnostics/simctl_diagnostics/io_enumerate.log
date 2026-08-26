@@ -1,0 +1,17 @@
+error: Unable to resolve the 'building' device alias.  No runtimes match platformDir=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform, runtimes=(
+    "iOS 17.5 (17.5 - 21F79) - com.apple.CoreSimulator.SimRuntime.iOS-17-5",
+    "iOS 26.3 (26.3.1 - 23D8133) - com.apple.CoreSimulator.SimRuntime.iOS-26-3",
+    "iOS 26.4 (26.4 - 23E244) - com.apple.CoreSimulator.SimRuntime.iOS-26-4",
+    "iOS 26.4 (26.4.1 - 23E254a) - com.apple.CoreSimulator.SimRuntime.iOS-26-4",
+    "iOS 26.5 (26.5 - 23F77) - com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "watchOS 10.5 (10.5 - 21T575) - com.apple.CoreSimulator.SimRuntime.watchOS-10-5",
+    "watchOS 26.2 (26.2 - 23S303) - com.apple.CoreSimulator.SimRuntime.watchOS-26-2",
+    "watchOS 26.4 (26.4 - 23T239) - com.apple.CoreSimulator.SimRuntime.watchOS-26-4",
+    "watchOS 26.5 (26.5 - 23T570) - com.apple.CoreSimulator.SimRuntime.watchOS-26-5"
+), error=Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory" UserInfo={NSLocalizedFailureReason=Failed to locate any simulator runtime matching options: {
+    BuildVersionString = 23F81a;
+    Platforms =     (
+        "com.apple.platform.iphonesimulator"
+    );
+    VersionString = "26.5.1";
+}}
