@@ -9,6 +9,19 @@ private extension Color {
     static let lightText = Color(red: 0.910, green: 0.910, blue: 0.910)
 }
 
+private enum LiveActivityCountdown {
+    static func string(from seconds: TimeInterval) -> String {
+        let totalMinutes = max(0, Int((seconds / 60).rounded(.up)))
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+
+        if hours > 0 {
+            return minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
+        }
+        return "\(minutes)m"
+    }
+}
+
 struct LoafieLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LoafieLiveActivityAttributes.self) { context in
@@ -206,6 +219,11 @@ struct LoafieLiveActivityLockScreenView: View {
                     .overlay(Color.lightText.opacity(0.18))
 
                 nextReminderView
+            } else {
+                Divider()
+                    .overlay(Color.lightText.opacity(0.18))
+
+                currentStepCountdownView
             }
         }
     }
@@ -281,14 +299,45 @@ struct LoafieLiveActivityLockScreenView: View {
                     .font(.headline)
                     .foregroundStyle(Color.lightText)
                     .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .layoutPriority(1)
 
                 Spacer(minLength: 8)
 
                 reminderCountdown
                     .font(.subheadline.weight(.bold))
                     .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                    .multilineTextAlignment(.trailing)
                     .foregroundStyle(Color.crustGold)
             }
+        }
+    }
+
+    private var currentStepCountdownView: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "timer")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.crustGold)
+                .accessibilityHidden(true)
+
+            Text(String(localized: "Remaining"))
+                .font(.headline)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+                .layoutPriority(1)
+                .foregroundStyle(Color.lightText)
+
+            Spacer(minLength: 8)
+
+            remainingPhaseCountdown
+                .font(.subheadline.weight(.bold))
+                .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+                .multilineTextAlignment(.trailing)
+                .foregroundStyle(Color.crustGold)
         }
     }
 
@@ -304,14 +353,32 @@ struct LoafieLiveActivityLockScreenView: View {
     @ViewBuilder
     private var reminderCountdown: some View {
         if context.state.isPaused {
-            Text(String(localized: "in \(countdownString(from: context.state.nextReminderSeconds ?? 0))"))
+            Text(String(localized: "in \(LiveActivityCountdown.string(from: context.state.nextReminderSeconds ?? 0))"))
         } else if let date = context.state.nextReminderDate {
-            TimelineView(.periodic(from: .now, by: 60)) { timeline in
-                Text(String(localized: "in \(countdownString(from: date.timeIntervalSince(timeline.date)))"))
-            }
+            Text(String(localized: "in")) + Text(verbatim: " ") + nativeCountdown(to: date)
         } else if let seconds = context.state.nextReminderSeconds {
-            Text(String(localized: "in \(countdownString(from: seconds))"))
+            Text(String(localized: "in \(LiveActivityCountdown.string(from: seconds))"))
         }
+    }
+
+    @ViewBuilder
+    private var remainingPhaseCountdown: some View {
+        if context.state.isPaused {
+            Text(LiveActivityCountdown.string(from: context.state.remainingSeconds))
+        } else if let endDate = context.state.stepEndDate {
+            nativeCountdown(to: endDate)
+        } else {
+            Text("—")
+        }
+    }
+
+    private func nativeCountdown(to endDate: Date) -> Text {
+        let startDate = min(Date.now, endDate)
+        return Text(
+            timerInterval: startDate...endDate,
+            countsDown: true,
+            showsHours: true
+        )
     }
 
     @ViewBuilder
@@ -333,10 +400,4 @@ struct LoafieLiveActivityLockScreenView: View {
         }
     }
 
-    private func countdownString(from seconds: Double) -> String {
-        let totalMinutes = max(0, Int(seconds) / 60)
-        let hours = totalMinutes / 60
-        let minutes = totalMinutes % 60
-        return String(format: "%02dh %02dm", hours, minutes)
-    }
 }

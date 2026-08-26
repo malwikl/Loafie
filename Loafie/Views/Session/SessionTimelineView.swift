@@ -28,6 +28,12 @@ struct BakingTimelineView: View {
         TimelineCalculator.projections(for: session)
     }
 
+    /// Between phases there is intentionally no active step. Keep the next
+    /// pending phase in view so the baker can explicitly start it there.
+    private var focusedStep: SessionStep? {
+        session.activeStep ?? session.sortedSteps.first { $0.status == .pending }
+    }
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
@@ -46,10 +52,8 @@ struct BakingTimelineView: View {
         .scrollTargetBehavior(.viewAligned)
         .scrollIndicators(.hidden)
         .background(Color.flourCream)
-        .onChange(of: session.activeStepIndex, initial: true) { _, newIndex in
-            guard let newIndex,
-                  let step = session.sortedSteps[safe: newIndex] else { return }
-            focusedStepID = step.id
+        .onChange(of: session.activeStepIndex, initial: true) { _, _ in
+            focusedStepID = focusedStep?.id
         }
         .onChange(of: focusedStepID) { _, newID in
             guard let newID,
@@ -68,10 +72,12 @@ struct BakingTimelineView: View {
             projection.stepID == step.id
         }) {
             let isCurrent = step.id == session.activeStep?.id
+            let isFocused = step.id == focusedStep?.id
             TimelineStepCard(
                 step: step,
                 projection: projection,
                 isCurrent: isCurrent,
+                isFocused: isFocused,
                 session: session
             )
             .id(step.id)
@@ -114,6 +120,7 @@ private struct TimelineStepCard: View {
     let step: SessionStep
     let projection: StepProjection
     let isCurrent: Bool
+    let isFocused: Bool
     let session: BakeSession
 
     var body: some View {
@@ -121,7 +128,7 @@ private struct TimelineStepCard: View {
             HStack(spacing: 12) {
                 stepIcon(for: step.type)
                     .font(.title2)
-                    .foregroundStyle(isCurrent ? Color.crustGold : .secondary)
+                    .foregroundStyle(isFocused ? Color.crustGold : .secondary)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(stepTitle)
                         .font(.title3.weight(.semibold))
@@ -143,18 +150,28 @@ private struct TimelineStepCard: View {
             } else {
                 TimelineTimesView(step: step, projection: projection)
                 TimelineEventsView(step: step, projection: projection)
+                if isFocused {
+                    Button {
+                        Haptics.impact(.medium)
+                        sessionStore.startNextStep(session)
+                    } label: {
+                        Label("Start \(step.displayTitle)", systemImage: "play.fill")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(LoafiePrimaryButtonStyle())
+                }
             }
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(isCurrent ? Color.crustGold.opacity(0.16) : Color.doughBeige)
+        .background(isFocused ? Color.crustGold.opacity(0.16) : Color.doughBeige)
         .overlay {
             RoundedRectangle(cornerRadius: LoafieDesign.cardRadius)
-                .stroke(isCurrent ? Color.crustGold : .clear, lineWidth: isCurrent ? 2 : 0)
+                .stroke(isFocused ? Color.crustGold : .clear, lineWidth: isFocused ? 2 : 0)
         }
         .clipShape(RoundedRectangle(cornerRadius: LoafieDesign.cardRadius))
         .accessibilityElement(children: .contain)
-        .accessibilityAddTraits(isCurrent ? .isSelected : [])
+        .accessibilityAddTraits(isFocused ? .isSelected : [])
     }
 
     @ViewBuilder

@@ -223,10 +223,10 @@ final class LiveActivityService {
     ) -> ActivityContent<LoafieLiveActivityAttributes.ContentState> {
         ActivityContent(
             state: state,
-            // The state is timestamp-driven and remains valid until the active
-            // step ends. A short fixed stale date would incorrectly mark it
-            // stale as soon as the app is suspended.
-            staleDate: state.isPaused ? nil : state.stepEndDate
+            // Time-based views recalculate from absolute dates in the widget
+            // process, including while the app is suspended. The phase can
+            // also remain active after its target time, so it isn't stale.
+            staleDate: nil
         )
     }
 

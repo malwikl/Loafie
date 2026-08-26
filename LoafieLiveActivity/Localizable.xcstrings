@@ -18,6 +18,7 @@
     },
     "Fold · round %lld" : {
       "comment" : "The next folding reminder. The argument is the fold round number.",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -64,6 +65,7 @@
     },
     "Next reminder" : {
       "comment" : "Heading above the next sub-timer or folding reminder on the Lock Screen.",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -115,6 +117,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pausiert"
+          }
+        }
+      }
+    },
+    "Remaining" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibend"
           }
         }
       }

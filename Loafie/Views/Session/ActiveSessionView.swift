@@ -151,16 +151,6 @@ struct ActiveSessionView: View {
                 notificationDeniedBanner
                     .padding(.top, 8)
             }
-            if session.activeStep == nil,
-               let nextStep = session.sortedSteps.first(where: { $0.status == .pending }) {
-                WaitingForNextStepCard(
-                    completedStep: session.sortedSteps.last(where: { $0.status == .completed }),
-                    nextStep: nextStep,
-                    start: { sessionStore.startNextStep(session) }
-                )
-                .padding(.horizontal, LoafieDesign.screenPadding)
-                .padding(.vertical, 12)
-            }
             BakingTimelineView(session: session)
         }
             .toolbar {
@@ -213,49 +203,6 @@ struct ActiveSessionView: View {
             .background(Color.timerPaused.opacity(0.12))
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal)
-    }
-}
-
-private struct WaitingForNextStepCard: View {
-    let completedStep: SessionStep?
-    let nextStep: SessionStep
-    let start: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            if let completedStep {
-                Label(
-                    "\(completedStep.displayTitle) · \(String(localized: "Step finished"))",
-                    systemImage: "checkmark.circle.fill"
-                )
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Color.timerCompleted)
-            }
-
-            Text(String(localized: "Next: \(nextStep.displayTitle)"))
-                .font(.title3.weight(.semibold))
-
-            if let notes = nextStep.notes, !notes.isEmpty {
-                Text(notes)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-            }
-
-            Text(nextStep.isManualStep
-                 ? String(localized: "No timer for this step")
-                 : DurationFormatter.string(from: nextStep.plannedDuration))
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.secondary)
-
-            Button {
-                start()
-            } label: {
-                Label("Start \(nextStep.displayTitle)", systemImage: "play.fill")
-            }
-            .buttonStyle(LoafiePrimaryButtonStyle())
-        }
-        .loafieCard()
-        .accessibilityElement(children: .contain)
     }
 }
 
@@ -385,23 +332,17 @@ struct ManualStepGuidanceView: View {
     let step: SessionStep
 
     var body: some View {
-        guard step.isManualStep else { return AnyView(EmptyView()) }
-        return AnyView(
+        if step.isManualStep, let notes = step.notes, !notes.isEmpty {
             VStack(alignment: .leading, spacing: 6) {
-                Text("No timer for this step")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Color.crustGold)
-                if let notes = step.notes, !notes.isEmpty {
-                    Text(notes)
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                }
+                Text(notes)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(14)
             .background(Color.crustGold.opacity(0.12))
             .clipShape(RoundedRectangle(cornerRadius: LoafieDesign.cardRadius))
-        )
+        }
     }
 }
 
