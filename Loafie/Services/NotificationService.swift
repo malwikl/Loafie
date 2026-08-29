@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import AudioToolbox
 import UserNotifications
 
 /// Local notification planning. Every session mutation triggers a full replan
@@ -102,20 +103,55 @@ final class NotificationService {
         }
     }
 
+    /// Plays a short preview for the selected notification sound.
+    /// System sounds are used here because UNNotificationSound itself cannot
+    /// be previewed while the app is in the foreground.
+    func playPreview(for sound: NotificationSound) {
+        let systemSoundID: SystemSoundID?
+        switch sound {
+        case .default:
+            systemSoundID = 1007 // Standard received-message alert.
+        case .ringtone:
+            systemSoundID = 1001 // Standard ringtone alert.
+        case .silent:
+            systemSoundID = nil
+        }
+        if let systemSoundID {
+            AudioServicesPlaySystemSound(systemSoundID)
+        }
+    }
+
     // MARK: - Replanning
 
     /// Cancels all pending notifications of a session and reschedules from
     /// current timestamps. Paused sessions keep no pending notifications.
-    func reschedule(for session: BakeSession) {
+    /// A new timer can also request cleanup of expired Loafie alarms first.
+    func reschedule(for session: BakeSession, cleanupExpired: Bool = false) {
         let prefix = Self.prefix(for: session)
         replanTask?.cancel()
         lastSchedulingError = nil
         replanTask = Task { @MainActor [weak self] in
             guard let self else { return }
+            let timestamp = Date()
             let requests = await center.pendingNotificationRequests()
-            let stale = requests.map(\.identifier).filter { $0.hasPrefix(prefix) }
-            center.removePendingNotificationRequests(withIdentifiers: stale)
+            guard !Task.isCancelled else { return }
+            var stale = Set(requests.map(\.identifier).filter { $0.hasPrefix(prefix) })
+            if cleanupExpired {
+                stale.formUnion(Self.expiredNotificationIdentifiers(from: requests, before: timestamp))
+            }
+            center.removePendingNotificationRequests(withIdentifiers: Array(stale))
+
+            if cleanupExpired {
+                let delivered = await center.deliveredNotifications()
+                guard !Task.isCancelled else { return }
+                let staleDelivered = delivered.map(\.request.identifier).filter { $0.hasPrefix(Self.loafiePrefix) }
+                center.removeDeliveredNotifications(withIdentifiers: staleDelivered)
+                await alarmKitService.cleanupExpired(before: timestamp)
+                guard !Task.isCancelled else { return }
+            }
+
             await alarmKitService.cancelAll(for: prefix)
+            guard !Task.isCancelled else { return }
             scheduledAlarmCount = alarmKitService.scheduledCount
             scheduledAlarms = alarmKitService.scheduledAlarms
             guard !Task.isCancelled else { return }
@@ -148,6 +184,33 @@ final class NotificationService {
 
     private static func prefix(for session: BakeSession) -> String {
         "session/\(session.id)/"
+    }
+
+    private static let loafiePrefix = "session/"
+
+    static func expiredNotificationIdentifiers(
+        from requests: [UNNotificationRequest],
+        before date: Date
+    ) -> [String] {
+        requests.compactMap { request in
+            guard request.identifier.hasPrefix(loafiePrefix),
+                  let trigger = request.trigger,
+                  let nextTriggerDate = nextTriggerDate(for: trigger),
+                  nextTriggerDate <= date else {
+                return nil
+            }
+            return request.identifier
+        }
+    }
+
+    private static func nextTriggerDate(for trigger: UNNotificationTrigger) -> Date? {
+        if let calendarTrigger = trigger as? UNCalendarNotificationTrigger {
+            return calendarTrigger.nextTriggerDate()
+        }
+        if let intervalTrigger = trigger as? UNTimeIntervalNotificationTrigger {
+            return intervalTrigger.nextTriggerDate()
+        }
+        return nil
     }
 
     func quietHoursSuppressedAlarmEvents(for session: BakeSession) -> [ReminderPlanEvent] {

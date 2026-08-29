@@ -6,7 +6,7 @@ struct SettingsView: View {
     @Environment(SessionStore.self) private var sessionStore
 
     @State private var versionTapCount = 0
-    @State private var showsAlarmKitDiagnostics = false
+    @State private var showsDebugSettings = false
 
     var body: some View {
         @Bindable var settings = settings
@@ -62,33 +62,27 @@ struct SettingsView: View {
                     .listRowBackground(Color.doughBeige)
                 }
 
-                Section("Timer") {
+                if showsDebugSettings {
+                    Section("Timer") {
                         Toggle("Ask before adjusting the plan", isOn: $settings.askBeforePlanAdjustment)
+                    }
+                    .listRowBackground(Color.doughBeige)
                 }
-                .listRowBackground(Color.doughBeige)
 
                 Section("About") {
                     Button(action: registerVersionTap) {
                         LabeledContent("Version", value: appVersion)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityHint("Tap five times to show system alarm diagnostics.")
+                    .accessibilityHint("Tap five times to show advanced settings.")
                 }
                 .listRowBackground(Color.doughBeige)
 
                 if #available(iOS 26.0, *),
-                   showsAlarmKitDiagnostics,
+                   showsDebugSettings,
                    notificationService.alarmKitAvailable {
                     alarmKitDiagnostics
                 }
-
-                Section {
-                    Text("All data stays on this iPhone.")
-                        .foregroundStyle(.secondary)
-                } header: {
-                    Text("Privacy")
-                }
-                .listRowBackground(Color.doughBeige)
             }
             .navigationTitle("Settings")
             .scrollContentBackground(.hidden)
@@ -98,7 +92,8 @@ struct SettingsView: View {
             .task {
                 await notificationService.refreshDiagnostics()
             }
-            .onChange(of: settings.notificationSound) { _, _ in
+            .onChange(of: settings.notificationSound) { _, sound in
+                notificationService.playPreview(for: sound)
                 rescheduleCurrentSession()
             }
         }
@@ -207,7 +202,7 @@ struct SettingsView: View {
     private func registerVersionTap() {
         versionTapCount += 1
         if versionTapCount >= 5 {
-            showsAlarmKitDiagnostics = true
+            showsDebugSettings = true
         }
     }
 

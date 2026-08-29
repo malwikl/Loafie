@@ -82,6 +82,75 @@ struct SessionStoreTests {
         #expect(!store.extendCurrentStep(for: session.id, by: 0))
     }
 
+    @Test func adjustingActiveEndReplansOpenFollowingSteps() throws {
+        let start = Date(timeIntervalSince1970: 0)
+        var current = start
+        let container = try Self.makeContainer()
+        let context = ModelContext(container)
+        let bakePlan = Self.makeBakePlan(in: context)
+        let store = SessionStore(modelContext: context) { current }
+        let session = try store.start(bakePlan: bakePlan)
+        let active = try #require(session.activeStep)
+        let next = try #require(session.sortedSteps[safe: 1])
+        let final = try #require(session.sortedSteps[safe: 2])
+        current = start.addingTimeInterval(5 * 60)
+        let targetEnd = current.addingTimeInterval(75 * 60)
+
+        #expect(store.adjustActiveStep(session, endingAt: targetEnd))
+        #expect(active.plannedEndAt == targetEnd)
+        #expect(active.manualAdjustment == 50 * 60)
+        #expect(next.plannedStartAt == targetEnd)
+        #expect(next.plannedEndAt == targetEnd.addingTimeInterval(next.plannedDuration))
+        #expect(final.plannedStartAt == next.plannedEndAt)
+    }
+
+    @Test func expiredTimerCanRestartWithOriginalDurationFromNow() throws {
+        let start = Date(timeIntervalSince1970: 0)
+        var current = start
+        let container = try Self.makeContainer()
+        let context = ModelContext(container)
+        let bakePlan = Self.makeBakePlan(in: context)
+        let store = SessionStore(modelContext: context) { current }
+        let session = try store.start(bakePlan: bakePlan)
+        let active = try #require(session.activeStep)
+        current = start.addingTimeInterval(35 * 60)
+        let targetEnd = current.addingTimeInterval(active.plannedDuration)
+
+        #expect(store.adjustActiveStep(session, endingAt: targetEnd))
+        let remaining = TimerMath.remaining(
+            startedAt: try #require(active.startedAt),
+            plannedDuration: active.plannedDuration,
+            manualAdjustment: active.manualAdjustment,
+            accumulatedPause: active.accumulatedPause,
+            now: current
+        )
+        #expect(remaining == active.plannedDuration)
+    }
+
+    @Test func invalidActiveEndDoesNotChangeSession() throws {
+        let start = Date(timeIntervalSince1970: 0)
+        var current = start
+        let container = try Self.makeContainer()
+        let context = ModelContext(container)
+        let bakePlan = Self.makeBakePlan(in: context)
+        let store = SessionStore(modelContext: context) { current }
+        let session = try store.start(bakePlan: bakePlan)
+        let active = try #require(session.activeStep)
+        current = start.addingTimeInterval(5 * 60)
+        let originalAdjustment = active.manualAdjustment
+        let originalEnd = active.plannedEndAt
+        let nextStart = session.sortedSteps[safe: 1]?.plannedStartAt
+
+        #expect(!store.adjustActiveStep(session, endingAt: current))
+        #expect(active.manualAdjustment == originalAdjustment)
+        #expect(active.plannedEndAt == originalEnd)
+        #expect(session.sortedSteps[safe: 1]?.plannedStartAt == nextStart)
+
+        store.pause(session)
+        #expect(!store.adjustActiveStep(session, endingAt: current.addingTimeInterval(30 * 60)))
+        #expect(active.manualAdjustment == originalAdjustment)
+    }
+
     @Test func planCreatesWaitingSessionAndStartsIt() async throws {
         let start = Date(timeIntervalSince1970: 1000)
         let planned = start.addingTimeInterval(3600)
@@ -96,7 +165,7 @@ struct SessionStoreTests {
         #expect(session.plannedStartAt == planned)
         #expect(session.activeStep == nil)
 
-        store.startPlannedSession(session)
+        _ = store.startPlannedSession(session)
         #expect(session.status == .active)
         #expect(session.activeStep?.type == .autolyse)
         #expect(session.plannedStartAt == nil)
@@ -117,6 +186,52 @@ struct SessionStoreTests {
         #expect(session.planningTargetModeRaw == BakeStartPlanner.TargetMode.bakeStart.rawValue)
         #expect(session.planningEarliestStartAt != nil)
         #expect(session.planningLatestStartAt != nil)
+    }
+
+    @Test func plannedOvernightStartAdjustsColdPhaseAndKeepsBakeTarget() throws {
+        let target = Date(timeIntervalSince1970: 9 * 3600)
+        let current = Date(timeIntervalSince1970: -2 * 3600)
+        let container = try Self.makeContainer()
+        let context = ModelContext(container)
+        let bakePlan = BakePlan(name: "Overnight", timing: .coldFinalProof)
+        bakePlan.steps = [
+            BakeStepDefinition(type: .kneading, duration: 60 * 60, sortIndex: 0),
+            BakeStepDefinition(type: .coldFinalProof, duration: 8 * 3600, minimumDuration: 6 * 3600, maximumDuration: 10 * 3600, sortIndex: 1),
+            BakeStepDefinition(type: .bake, duration: 45 * 60, sortIndex: 2),
+        ]
+        context.insert(bakePlan)
+        let store = SessionStore(modelContext: context) { current }
+        let session = try store.plan(bakePlan: bakePlan, target: target, mode: .bakeStart)
+
+        #expect(store.startPlannedSession(session) == .started)
+        let cold = try #require(session.sortedSteps[safe: 1])
+        let bake = try #require(session.sortedSteps[safe: 2])
+        #expect(cold.plannedDuration == 9 * 3600)
+        #expect(cold.plannedStartAt == current.addingTimeInterval(60 * 60))
+        #expect(bake.plannedStartAt == target)
+        #expect(bake.plannedDuration == 45 * 60)
+    }
+
+    @Test func plannedOvernightStartOutsideColdWindowRemainsPlanned() throws {
+        let target = Date(timeIntervalSince1970: 9 * 3600)
+        let current = Date(timeIntervalSince1970: 1 * 3600)
+        let container = try Self.makeContainer()
+        let context = ModelContext(container)
+        let bakePlan = BakePlan(name: "Overnight", timing: .coldFinalProof)
+        bakePlan.steps = [
+            BakeStepDefinition(type: .kneading, duration: 60 * 60, sortIndex: 0),
+            BakeStepDefinition(type: .coldFinalProof, duration: 8 * 3600, minimumDuration: 8 * 3600, maximumDuration: 10 * 3600, sortIndex: 1),
+            BakeStepDefinition(type: .bake, duration: 45 * 60, sortIndex: 2),
+        ]
+        context.insert(bakePlan)
+        let store = SessionStore(modelContext: context) { current }
+        let session = try store.plan(bakePlan: bakePlan, target: target, mode: .bakeStart)
+        let originalDuration = session.sortedSteps[safe: 1]?.plannedDuration
+
+        #expect(store.startPlannedSession(session) == .blockedByColdWindow)
+        #expect(session.status == .planned)
+        #expect(session.activeStep == nil)
+        #expect(session.sortedSteps[safe: 1]?.plannedDuration == originalDuration)
     }
 
     @Test func secondStartFailsWhenSessionRunning() async throws {

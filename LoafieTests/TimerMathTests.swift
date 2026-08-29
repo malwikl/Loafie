@@ -91,6 +91,20 @@ struct TimerMathTests {
         #expect(remaining == 120)
     }
 
+    @Test func absoluteEndProducesSignedManualAdjustment() {
+        let start = Date(timeIntervalSince1970: 1_000)
+        let targetEnd = start.addingTimeInterval(45 * 60)
+
+        let adjustment = TimerMath.manualAdjustment(
+            endingAt: targetEnd,
+            startedAt: start,
+            plannedDuration: 60 * 60,
+            accumulatedPause: 5 * 60
+        )
+
+        #expect(adjustment == -(20 * 60))
+    }
+
     @Test func coldStepStateTransitions() {
         let start = Date(timeIntervalSince1970: 0)
         let target: TimeInterval = 12 * 3600

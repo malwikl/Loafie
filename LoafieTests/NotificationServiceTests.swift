@@ -18,4 +18,39 @@ struct NotificationServiceTests {
 
         #expect(defaults.stringArray(forKey: "loafie.disabledAlarmIdentifiers.legacy-session") == nil)
     }
+
+    @Test func expiredPendingIdentifiersAreLimitedToLoafie() {
+        let now = Date()
+        let past = Calendar.current.dateComponents(
+            [.year, .month, .day, .hour, .minute, .second],
+            from: now.addingTimeInterval(-3_600)
+        )
+        let future = Calendar.current.dateComponents(
+            [.year, .month, .day, .hour, .minute, .second],
+            from: now.addingTimeInterval(3_600)
+        )
+        let content = UNMutableNotificationContent()
+        let requests = [
+            UNNotificationRequest(
+                identifier: "session/old/past",
+                content: content,
+                trigger: UNCalendarNotificationTrigger(dateMatching: past, repeats: false)
+            ),
+            UNNotificationRequest(
+                identifier: "session/current/future",
+                content: content,
+                trigger: UNCalendarNotificationTrigger(dateMatching: future, repeats: false)
+            ),
+            UNNotificationRequest(
+                identifier: "other-app/past",
+                content: content,
+                trigger: UNCalendarNotificationTrigger(dateMatching: past, repeats: false)
+            )
+        ]
+
+        #expect(
+            NotificationService.expiredNotificationIdentifiers(from: requests, before: now)
+                == ["session/old/past"]
+        )
+    }
 }

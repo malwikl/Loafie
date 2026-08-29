@@ -87,17 +87,7 @@ struct LoafieApp: App {
     }
 
     private func handleOpenURL(_ url: URL) {
-        let path = url.pathComponents.filter { $0 != "/" }
-        let sessionID: UUID?
-        if url.scheme == "https", url.host == "loafie.kloeffer.de", path.first == "timer" {
-            sessionID = path.dropFirst().first.flatMap(UUID.init(uuidString:))
-        } else if url.scheme == "loafie", url.host == "session" {
-            sessionID = path.first.flatMap(UUID.init(uuidString:))
-        } else {
-            sessionID = nil
-        }
-        guard let sessionID else { return }
         // Retain the request during a cold launch so the tab selection is not lost.
-        navigationState.openTimer(for: sessionID)
+        navigationState.openTimer(from: url)
     }
 }

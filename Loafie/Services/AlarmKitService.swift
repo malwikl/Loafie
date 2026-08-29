@@ -26,6 +26,7 @@ final class AlarmKitService {
     var scheduledCount: Int { backend?.scheduledCount ?? 0 }
     var scheduledAlarms: [ScheduledAlarm] { backend?.scheduledAlarms ?? [] }
     func requestAuthorization() async -> Bool { await backend?.requestAuthorization() ?? false }
+    func cleanupExpired(before date: Date) async { await backend?.cleanupExpired(before: date) }
     func cancelAll(for prefix: String) async { await backend?.cancelAll(for: prefix) }
     func schedule(identifier: String, sessionID: UUID, at date: Date, title: String) async -> Bool {
         await backend?.schedule(identifier: identifier, sessionID: sessionID, at: date, title: title) ?? false
@@ -38,6 +39,7 @@ private protocol AlarmBackend {
     var scheduledCount: Int { get }
     var scheduledAlarms: [ScheduledAlarm] { get }
     func requestAuthorization() async -> Bool
+    func cleanupExpired(before date: Date) async
     func cancelAll(for prefix: String) async
     func schedule(identifier: String, sessionID: UUID, at date: Date, title: String) async -> Bool
 }
@@ -59,6 +61,23 @@ private final class AlarmKitBackend: AlarmBackend {
     func requestAuthorization() async -> Bool {
         do { return try await manager.requestAuthorization() == .authorized }
         catch { return false }
+    }
+
+    func cleanupExpired(before date: Date) async {
+        var ids = storedIDs()
+        var entries = storedEntries()
+        let expiredKeys = entries.values
+            .filter { $0.identifier.hasPrefix("session/") && $0.scheduledAt <= date }
+            .map(\.identifier)
+
+        for key in expiredKeys {
+            if let id = ids[key] {
+                try? manager.cancel(id: id)
+                ids.removeValue(forKey: key)
+            }
+            entries.removeValue(forKey: key)
+        }
+        save(ids: ids, entries: entries)
     }
 
     func cancelAll(for prefix: String) async {
@@ -157,6 +176,7 @@ final class AlarmKitService {
     var scheduledCount: Int { 0 }
     var scheduledAlarms: [ScheduledAlarm] { [] }
     func requestAuthorization() async -> Bool { false }
+    func cleanupExpired(before date: Date) async {}
     func cancelAll(for prefix: String) async {}
     func schedule(identifier: String, sessionID: UUID, at date: Date, title: String) async -> Bool { false }
 }

@@ -73,6 +73,21 @@ enum TimerMath {
             .addingTimeInterval(manualAdjustment)
             .addingTimeInterval(accumulatedPause)
     }
+
+    /// Returns the signed adjustment that makes a running timer end at an
+    /// absolute target date. Negative values deliberately shorten a step.
+    static func manualAdjustment(
+        endingAt targetEnd: Date,
+        startedAt: Date,
+        plannedDuration: TimeInterval,
+        accumulatedPause: TimeInterval = 0
+    ) -> TimeInterval {
+        targetEnd.timeIntervalSince(
+            startedAt
+                .addingTimeInterval(plannedDuration)
+                .addingTimeInterval(accumulatedPause)
+        )
+    }
 }
 
 /// Classification of a cold step against its min/target/max window.

@@ -21,8 +21,11 @@ struct StepEditView: View {
             .listRowBackground(Color.doughBeige)
 
             Section("Duration") {
-                DurationPickerView(interval: targetDurationBinding)
-                    .frame(maxWidth: .infinity)
+                if step.type == .kneading {
+                    MinuteDurationPickerView(interval: targetDurationBinding)
+                } else {
+                    DurationPickerView(interval: targetDurationBinding)
+                }
             }
             .listRowBackground(Color.doughBeige)
 
@@ -243,6 +246,7 @@ extension BakeStepDefinition {
 extension BakeStepType {
     var localizedTitle: String {
         switch self {
+        case .sourdoughBuild: String(localized: "Sourdough / Preferment")
         case .autolyse: String(localized: "Autolyse")
         case .mix: String(localized: "Mix Ingredients")
         case .kneading: String(localized: "Kneading")

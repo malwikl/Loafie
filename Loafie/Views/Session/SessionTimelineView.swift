@@ -19,10 +19,9 @@ struct SessionTimelineView: View {
 }
 
 struct BakingTimelineView: View {
-    @Environment(SessionStore.self) private var sessionStore
     @Environment(NotificationService.self) private var notificationService
     let session: BakeSession
-    @State private var focusedStepID: UUID?
+    @State private var scrollPositionID: UUID?
 
     private var projections: [StepProjection] {
         TimelineCalculator.projections(for: session)
@@ -48,17 +47,14 @@ struct BakingTimelineView: View {
             .padding(.horizontal, LoafieDesign.screenPadding)
             .padding(.vertical, 16)
         }
-        .scrollPosition(id: $focusedStepID)
-        .scrollTargetBehavior(.viewAligned)
+        .scrollPosition(id: $scrollPositionID)
         .scrollIndicators(.hidden)
         .background(Color.flourCream)
-        .onChange(of: session.activeStepIndex, initial: true) { _, _ in
-            focusedStepID = focusedStep?.id
-        }
-        .onChange(of: focusedStepID) { _, newID in
-            guard let newID,
-                  newID == session.activeStep?.id else { return }
-            sessionStore.refreshFoldStates(session)
+        // Bring the current task into view when the baker starts a phase, but
+        // otherwise leave the timeline at the position the baker chose.
+        .onChange(of: session.activeStep?.id, initial: true) { _, activeStepID in
+            guard let activeStepID else { return }
+            scrollPositionID = activeStepID
         }
     }
 
@@ -128,10 +124,14 @@ private struct TimelineStepCard: View {
             HStack(spacing: 12) {
                 stepIcon(for: step.type)
                     .font(.title2)
-                    .foregroundStyle(isFocused ? Color.crustGold : .secondary)
+                    .foregroundStyle(Color.sourdoughBrown)
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(stepTitle)
-                        .font(.title3.weight(.semibold))
+                    HStack(spacing: 6) {
+                        Text(stepTitle)
+                            .font(.title3.weight(.semibold))
+                            .foregroundStyle(Color.sourdoughBrown)
+                        StepNotesButton(notes: step.notes, stepTitle: stepTitle)
+                    }
                     Text(statusLabel)
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(statusColor)
@@ -155,7 +155,7 @@ private struct TimelineStepCard: View {
                         Haptics.impact(.medium)
                         sessionStore.startNextStep(session)
                     } label: {
-                        Label("Start \(step.displayTitle)", systemImage: "play.fill")
+                        Label("Start step", systemImage: "play.fill")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(LoafiePrimaryButtonStyle())
@@ -250,25 +250,13 @@ private struct TimelineStepCard: View {
         }
     }
 
-    private var activeTargetDate: Date {
-        TimerMath.plannedEnd(
-            startedAt: step.startedAt ?? Date(),
-            plannedDuration: step.plannedDuration,
-            manualAdjustment: step.manualAdjustment,
-            accumulatedPause: step.accumulatedPause
-        )
-    }
-
     private var stepTitle: String {
-        guard isCurrent, step.plannedDuration > 0 else {
-            return step.displayTitle
-        }
-        return "\(step.displayTitle) bis \(activeTargetDate.formatted(date: .omitted, time: .shortened))"
+        step.displayTitle
     }
 
 }
 
-private struct ReminderChecklistView: View {
+struct ReminderChecklistView: View {
     @Environment(SessionStore.self) private var sessionStore
     let step: SessionStep
 
@@ -278,6 +266,7 @@ private struct ReminderChecklistView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Reminders in this step")
                     .font(.headline)
+                    .foregroundStyle(Color.sourdoughBrown)
                 ForEach(step.sortedReminders) { reminder in
                     HStack(spacing: 10) {
                         Button {
@@ -285,9 +274,10 @@ private struct ReminderChecklistView: View {
                         } label: {
                             HStack(spacing: 10) {
                             Image(systemName: reminder.status == .completed ? "checkmark.square.fill" : "square")
-                                .foregroundStyle(reminder.status == .completed ? Color.green : Color.crustGold)
+                                .foregroundStyle(Color.sourdoughBrown)
                                 .font(.title3)
                             Text(reminder.displayTitle)
+                                .foregroundStyle(Color.sourdoughBrown)
                                 .multilineTextAlignment(.leading)
                             }
                             .frame(minHeight: 44, alignment: .leading)
@@ -372,7 +362,7 @@ private struct TimelineEventsView: View {
                 ForEach(step.sortedReminders) { timer in
                     Label("\(timer.displayTitle) · \(eventDate(for: timer), format: .dateTime.hour().minute())", systemImage: "timer")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.sourdoughBrown)
                 }
             }
         }
@@ -405,17 +395,14 @@ struct TimelineRow: View {
         HStack(spacing: 12) {
             StatusIndicator(status: step.status)
             stepIcon(for: step.type)
-                .foregroundStyle(statusColor)
+                .foregroundStyle(Color.sourdoughBrown)
                 .frame(width: 28)
             VStack(alignment: .leading, spacing: 4) {
                 Text(step.displayTitle)
                     .font(.headline)
-                if step.status == .completed || step.status == .skipped {
-                    Text("\(projection.projectedStart, format: .dateTime.hour().minute())")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                } else {
-                    Text("\(projection.projectedStart, format: .dateTime.hour().minute()) – \(projection.projectedEnd, format: .dateTime.hour().minute())")
+                    .foregroundStyle(Color.sourdoughBrown)
+                if let phaseTimeLabel {
+                    Text(phaseTimeLabel)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .monospacedDigit()
@@ -434,6 +421,7 @@ struct TimelineRow: View {
                                     .frame(width: 18)
                                 Text(event.title)
                                     .font(.caption)
+                                    .foregroundStyle(Color.sourdoughBrown)
                                 Spacer()
                                 Text(event.date, format: .dateTime.hour().minute())
                                     .font(.caption.monospacedDigit())
@@ -469,7 +457,7 @@ struct TimelineRow: View {
                     title: timer.displayTitle,
                     icon: reminderIcon(for: timer),
                     date: scheduledAt,
-                    color: timer.status == .completed ? .green : timer.status == .skipped ? .secondary : .orange
+                    color: .sourdoughBrown
                 )
             )
         }
@@ -482,7 +470,7 @@ struct TimelineRow: View {
                         title: "Fold \(round.number)",
                         icon: foldIcon(for: round),
                         date: round.scheduledAt,
-                        color: round.status == .completed ? .green : round.status == .skipped ? .secondary : .purple
+                        color: .sourdoughBrown
                     )
                 )
             }
@@ -499,13 +487,22 @@ struct TimelineRow: View {
                         title: "Fold \(index + 1)",
                         icon: "hands.clap.fill",
                         date: projection.projectedStart.addingTimeInterval(offset),
-                        color: .purple
+                        color: .sourdoughBrown
                     )
                 )
             }
         }
 
         return result.sorted { $0.date < $1.date }
+    }
+
+    private var phaseTimeLabel: String? {
+        guard !step.isManualStep else { return nil }
+        let duration = DurationFormatter.string(from: step.plannedDuration)
+        if step.status == .completed || step.status == .skipped {
+            return "\(projection.projectedStart.formatted(.dateTime.hour().minute())) (\(duration))"
+        }
+        return "\(projection.projectedStart.formatted(.dateTime.hour().minute())) – \(projection.projectedEnd.formatted(.dateTime.hour().minute())) (\(duration))"
     }
 
     private func reminderIcon(for timer: SessionReminder) -> String {

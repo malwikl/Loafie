@@ -52,6 +52,7 @@ enum ReminderTriggerMode: String, Codable, CaseIterable, Identifiable {
 }
 
 enum BakeStepType: String, Codable, CaseIterable {
+    case sourdoughBuild
     case autolyse
     case mix
     case kneading
@@ -67,6 +68,7 @@ enum BakeStepType: String, Codable, CaseIterable {
 
     var symbolName: String {
         switch self {
+        case .sourdoughBuild: "flask.fill"
         case .autolyse: "drop.fill"
         case .mix: "arrow.triangle.2.circlepath"
         case .kneading: "gearshape.2.fill"
@@ -93,7 +95,7 @@ enum BakeStepType: String, Codable, CaseIterable {
     /// Steps that are commonly skipped and therefore disabled by default in templates.
     var isOptional: Bool {
         switch self {
-        case .autolyse, .mix, .benchRest, .shaping, .cooling, .custom: true
+        case .sourdoughBuild, .autolyse, .mix, .benchRest, .shaping, .cooling, .custom: true
         case .bulkRoomTemperature, .bulkCold, .finalProofRoomTemperature,
                 .coldFinalProof, .bake, .kneading: false
         }

@@ -26,6 +26,18 @@ enum BakePlanTemplates {
 
     // MARK: - Building blocks
 
+    private static func sourdoughBuild(_ index: inout Int) -> BakeStepDefinition {
+        defer { index += 1 }
+        return BakeStepDefinition(
+            type: .sourdoughBuild,
+            duration: 10 * 3600,
+            minimumDuration: 8 * 3600,
+            maximumDuration: 12 * 3600,
+            isEnabled: false,
+            sortIndex: index
+        )
+    }
+
     private static func autolyse(_ index: inout Int) -> BakeStepDefinition {
         defer { index += 1 }
         return BakeStepDefinition(
@@ -169,6 +181,7 @@ enum BakePlanTemplates {
     private static func sameDaySteps() -> [BakeStepDefinition] {
         var i = 0
         return [
+            sourdoughBuild(&i),
             autolyse(&i),
             mix(&i),
             kneading(&i),
@@ -184,6 +197,7 @@ enum BakePlanTemplates {
     private static func coldFinalProofSteps() -> [BakeStepDefinition] {
         var i = 0
         return [
+            sourdoughBuild(&i),
             autolyse(&i),
             mix(&i),
             kneading(&i),
@@ -199,6 +213,7 @@ enum BakePlanTemplates {
     private static func coldBulkSteps() -> [BakeStepDefinition] {
         var i = 0
         return [
+            sourdoughBuild(&i),
             autolyse(&i),
             mix(&i),
             kneading(&i),

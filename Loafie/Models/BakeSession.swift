@@ -86,7 +86,8 @@ final class SessionStep {
     var plannedStartAt: Date?
     var plannedEndAt: Date?
     var effectiveDuration: TimeInterval?
-    /// Manual extension (positive) in seconds.
+    /// Signed manual end-time adjustment in seconds. Positive values extend;
+    /// negative values shorten the originally planned duration.
     var manualAdjustment: TimeInterval
     /// Cumulated pause seconds for this step.
     var accumulatedPause: TimeInterval

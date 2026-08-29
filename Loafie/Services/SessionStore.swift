@@ -13,6 +13,11 @@ final class SessionStore {
         case noActiveStep
     }
 
+    enum PlannedStartResult: Equatable {
+        case started
+        case blockedByColdWindow
+    }
+
     let modelContext: ModelContext
     var notificationService: NotificationService?
     var liveActivityService: LiveActivityService?
@@ -103,7 +108,7 @@ final class SessionStore {
         } else {
             session.status = .completed
         }
-        sessionDidChange(session)
+        sessionDidChange(session, cleanupExpired: true)
         liveActivityService?.startOrUpdate(for: session)
         return session
     }
@@ -157,23 +162,46 @@ final class SessionStore {
         assignPlannedTimes(to: session, from: selectedStart)
         modelContext.insert(session)
         bakePlan.lastUsedAt = now()
-        sessionDidChange(session)
+        sessionDidChange(session, cleanupExpired: true)
         return session
     }
 
-    func startPlannedSession(_ session: BakeSession) {
-        guard session.status == .planned else { return }
+    func startPlannedSession(_ session: BakeSession) -> PlannedStartResult {
+        guard session.status == .planned else { return .started }
         let timestamp = now()
+
+        if let target = session.planningTargetAt,
+           let rawMode = session.planningTargetModeRaw,
+           let mode = BakeStartPlanner.TargetMode(rawValue: rawMode) {
+            switch OvernightPlanAdjuster.result(
+                steps: session.sortedSteps,
+                actualStart: timestamp,
+                target: target,
+                mode: mode
+            ) {
+            case .outsideColdWindow:
+                return .blockedByColdWindow
+            case .adjusted(let duration):
+                if let coldStep = session.sortedSteps.first(where: { $0.isColdStep }) {
+                    coldStep.duration = duration
+                }
+            case .notApplicable:
+                break
+            }
+        }
+
         session.status = .active
         session.plannedStartAt = nil
         session.startedAt = timestamp
+        assignPlannedTimes(to: session, from: timestamp)
         if session.sortedSteps.isEmpty {
             session.status = .completed
         } else {
             activateStep(at: 0, in: session, at: timestamp)
         }
-        sessionDidChange(session)
+        sessionDidChange(session, cleanupExpired: true)
         liveActivityService?.startOrUpdate(for: session)
+        return .started
     }
 
     func cancel(_ session: BakeSession) {
@@ -206,13 +234,19 @@ final class SessionStore {
         liveActivityService?.startOrUpdate(for: session)
     }
 
-    // MARK: - Extend
+    // MARK: - Timer adjustment
 
     func extend(_ session: BakeSession, by seconds: TimeInterval) {
-        guard session.status.isRunning, let step = session.activeStep else { return }
-        step.manualAdjustment += seconds
-        sessionDidChange(session)
-        liveActivityService?.startOrUpdate(for: session)
+        guard seconds != 0,
+              let step = session.activeStep,
+              let startedAt = step.startedAt else { return }
+        let currentEnd = TimerMath.plannedEnd(
+            startedAt: startedAt,
+            plannedDuration: step.plannedDuration,
+            manualAdjustment: step.manualAdjustment,
+            accumulatedPause: step.accumulatedPause
+        )
+        _ = adjustActiveStep(session, endingAt: currentEnd.addingTimeInterval(seconds))
     }
 
     @discardableResult
@@ -221,7 +255,38 @@ final class SessionStore {
               let session = runningSession(),
               session.id == sessionID,
               session.activeStep != nil else { return false }
+        let previousAdjustment = session.activeStep?.manualAdjustment
         extend(session, by: seconds)
+        return session.activeStep?.manualAdjustment != previousAdjustment
+    }
+
+    /// Changes the active timed step to end at an absolute future date. The
+    /// active step keeps its recorded start; all still-pending following steps
+    /// are chained from the new end. Completed history is never touched.
+    @discardableResult
+    func adjustActiveStep(_ session: BakeSession, endingAt targetEnd: Date) -> Bool {
+        let timestamp = now()
+        guard session.status == .active,
+              let activeStep = session.activeStep,
+              activeStep.status == .active,
+              !activeStep.isManualStep,
+              let startedAt = activeStep.startedAt,
+              targetEnd > timestamp else {
+            return false
+        }
+
+        activeStep.manualAdjustment = TimerMath.manualAdjustment(
+            endingAt: targetEnd,
+            startedAt: startedAt,
+            plannedDuration: activeStep.plannedDuration,
+            accumulatedPause: activeStep.accumulatedPause
+        )
+        activeStep.plannedEndAt = targetEnd
+
+        replanPendingSteps(after: activeStep, in: session, from: targetEnd)
+        rescheduleOpenEvents(for: activeStep, at: timestamp)
+        sessionDidChange(session)
+        liveActivityService?.startOrUpdate(for: session)
         return true
     }
 
@@ -246,7 +311,10 @@ final class SessionStore {
         guard let currentIndex = session.activeStepIndex else { return }
         let isLast = currentIndex == steps.count - 1
 
-        if !isLast && wasEarly && (settings?.askBeforePlanAdjustment ?? true) {
+        if !isLast && step.isManualStep {
+            session.plannedStartAt = completionDate
+            shiftPendingPlan(for: session, after: step.id, from: completionDate)
+        } else if !isLast && wasEarly && (settings?.askBeforePlanAdjustment ?? true) {
             session.pendingPlanAdjustmentStepID = step.id
         }
 
@@ -446,8 +514,54 @@ final class SessionStore {
         }
     }
 
-    private func sessionDidChange(_ session: BakeSession) {
-        notificationService?.reschedule(for: session)
+    private func replanPendingSteps(after activeStep: SessionStep, in session: BakeSession, from start: Date) {
+        guard let activeIndex = session.sortedSteps.firstIndex(where: { $0.id == activeStep.id }) else { return }
+        var cursor = start
+        for step in session.sortedSteps.dropFirst(activeIndex + 1) where step.status == .pending {
+            step.plannedStartAt = cursor
+            step.plannedEndAt = cursor.addingTimeInterval(step.plannedDuration)
+            cursor = step.plannedEndAt ?? cursor
+        }
+    }
+
+    /// Recalculates unfinished active-step sub-timers and fold rounds from
+    /// their trigger definitions. Finished and skipped records remain history.
+    private func rescheduleOpenEvents(for step: SessionStep, at timestamp: Date) {
+        guard let startedAt = step.startedAt else { return }
+
+        var previousDate: Date?
+        for reminder in step.sortedReminders {
+            let scheduledAt = TimerMath.reminderDate(
+                stepStart: startedAt,
+                stepDuration: step.plannedDuration,
+                stepAdjustment: step.manualAdjustment,
+                pauseDuration: step.accumulatedPause,
+                offset: reminder.offset,
+                mode: reminder.triggerMode,
+                previousDate: previousDate
+            )
+            previousDate = scheduledAt
+
+            guard reminder.status != .completed, reminder.status != .skipped else { continue }
+            reminder.status = scheduledAt <= timestamp ? .triggered : .pending
+        }
+
+        let offsets = FoldReminderCalculator.roundOffsets(
+            repetitions: step.foldRepetitions,
+            interval: step.foldInterval,
+            firstReminderOffset: step.foldFirstOffset
+        )
+        for (index, round) in step.sortedFoldReminders.enumerated() {
+            guard round.status != .completed, round.status != .skipped else { continue }
+            guard let offset = offsets[safe: index] else { continue }
+            let scheduledAt = startedAt.addingTimeInterval(offset + round.postponedBy)
+            round.scheduledAt = scheduledAt
+            round.status = scheduledAt <= timestamp ? .due : .pending
+        }
+    }
+
+    private func sessionDidChange(_ session: BakeSession, cleanupExpired: Bool = false) {
+        notificationService?.reschedule(for: session, cleanupExpired: cleanupExpired)
         NotificationCenter.default.post(name: .sessionDidChange, object: session)
     }
 }

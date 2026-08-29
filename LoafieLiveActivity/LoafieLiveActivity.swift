@@ -47,6 +47,7 @@ struct LoafieLiveActivityWidget: Widget {
             } minimal: {
                 compactTrailingView(context)
             }
+            .widgetURL(sessionURL(for: context))
         }
     }
 

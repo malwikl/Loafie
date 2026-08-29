@@ -20,6 +20,7 @@ struct FoldChecklistView: View {
                 HStack {
                     Text("Folds")
                         .font(.headline)
+                        .foregroundStyle(Color.sourdoughBrown)
                     Spacer()
                     Text("\(completed) / \(rounds.count) done")
                         .font(.subheadline)
@@ -60,7 +61,7 @@ private struct FoldChecklistRow: View {
         HStack(spacing: 10) {
             Button(action: complete) {
                 Image(systemName: round.status == .completed ? "checkmark.square.fill" : "square")
-                    .foregroundStyle(round.status == .completed ? Color.green : Color.crustGold)
+                    .foregroundStyle(Color.sourdoughBrown)
                     .font(.title3)
                     .frame(width: 44, height: 44)
             }
@@ -71,6 +72,7 @@ private struct FoldChecklistRow: View {
 
             Text("Fold \(round.number)")
                 .font(.body.weight(.medium))
+                .foregroundStyle(Color.sourdoughBrown)
 
             Spacer()
 

@@ -25,7 +25,7 @@ struct SessionStartView: View {
         self.bakePlan = bakePlan
         self.onStarted = onStarted
         _startMode = State(initialValue: bakePlan.timing == .sameDay ? .startNow : .planBackwards)
-        _targetMode = State(initialValue: bakePlan.timing == .sameDay ? .bakeStart : .readyToSlice)
+        _targetMode = State(initialValue: .bakeStart)
 
         var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
         components.day = (components.day ?? 1) + 1
@@ -47,7 +47,7 @@ struct SessionStartView: View {
     }
 
     private var targetLabel: LocalizedStringKey {
-        targetMode == .bakeStart ? "Bake starts" : "Ready to slice"
+        targetMode == .bakeStart ? "Bake starts" : "Cooled"
     }
 
     private var startActionLabel: LocalizedStringKey {
@@ -175,7 +175,7 @@ struct SessionStartView: View {
                 if hasBakeStep {
                     Text("Bake starts").tag(BakeStartPlanner.TargetMode.bakeStart)
                 }
-                Text("Ready to slice").tag(BakeStartPlanner.TargetMode.readyToSlice)
+                Text("Cooled").tag(BakeStartPlanner.TargetMode.readyToSlice)
             }
         }
         .listRowBackground(Color.doughBeige)
@@ -212,10 +212,11 @@ struct SessionStartView: View {
                     HStack(alignment: .top, spacing: 8) {
                         stepIcon(for: entry.step.type)
                             .frame(width: 28)
-                            .foregroundStyle(Color.crustGold)
+                            .foregroundStyle(Color.sourdoughBrown)
 
                         Text(entry.step.displayTitle)
                             .font(.headline)
+                            .foregroundStyle(Color.sourdoughBrown)
 
                         Spacer(minLength: 8)
 
@@ -235,11 +236,12 @@ struct SessionStartView: View {
                         HStack(alignment: .firstTextBaseline, spacing: 8) {
                             Image(systemName: "bell.fill")
                                 .font(.caption)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(Color.sourdoughBrown)
                                 .frame(width: 24)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(reminder.timer.displayTitle)
-                                Text(reminder.timer.triggerMode.title)
+                            Text(reminder.timer.displayTitle)
+                                .foregroundStyle(Color.sourdoughBrown)
+                            Text(reminder.timer.triggerMode.title)
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -255,9 +257,10 @@ struct SessionStartView: View {
                         HStack(alignment: .firstTextBaseline, spacing: 8) {
                             Image(systemName: "hands.clap.fill")
                                 .font(.caption)
-                                .foregroundStyle(.purple)
+                                .foregroundStyle(Color.sourdoughBrown)
                                 .frame(width: 24)
                             Text(String(localized: "Fold \(fold.number)"))
+                                .foregroundStyle(Color.sourdoughBrown)
                             Spacer()
                             Text(fold.date(anchor: timelineAnchor), format: .dateTime.hour().minute())
                                 .font(.caption.monospacedDigit())

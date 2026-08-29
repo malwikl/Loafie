@@ -52,6 +52,11 @@ struct RootTabView: View {
             guard sessionID != nil else { return }
             selection = .timer
         }
+        .onOpenURL { url in
+            if navigationState.openTimer(from: url) {
+                selection = .timer
+            }
+        }
     }
 
     private enum Tab: Hashable {
